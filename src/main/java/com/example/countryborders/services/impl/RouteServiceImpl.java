@@ -1,5 +1,6 @@
 package com.example.countryborders.services.impl;
 
+import com.example.countryborders.exceptions.RouteNotFoundException;
 import com.example.countryborders.models.Root;
 import com.example.countryborders.services.IRouteService;
 import org.slf4j.Logger;
@@ -26,7 +27,7 @@ public class RouteServiceImpl implements IRouteService {
     private final static String URL = "https://raw.githubusercontent.com/mledoze/countries/master/countries.json";
     
     @Override
-    public Set<String> getRoutesForBorders(String orig, String dest) throws RuntimeException {
+    public Set<String> getRoutesForBorders(String orig, String dest) throws RouteNotFoundException {
         ResponseEntity<List<Root>> routes = restTemplate.exchange(URL,
                 HttpMethod.GET,
                 null,
@@ -34,7 +35,7 @@ public class RouteServiceImpl implements IRouteService {
 
         if(routes.getStatusCode().is4xxClientError() ||  routes.getStatusCode().is5xxServerError()) {
             LOGGER.error("Error getting information from URL = {} with statusCode  = {}", URL, routes.getStatusCode());
-            throw new RuntimeException("Internal Server Error");
+            throw new RouteNotFoundException("Internal Error Occured");
         }
 
         if(routes.getStatusCode() == HttpStatus.OK && routes.getBody() != null && !CollectionUtils.isEmpty(routes.getBody()))

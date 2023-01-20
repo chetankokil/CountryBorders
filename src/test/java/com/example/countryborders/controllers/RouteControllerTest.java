@@ -1,5 +1,6 @@
 package com.example.countryborders.controllers;
 
+import com.example.countryborders.exceptions.RouteNotFoundException;
 import com.example.countryborders.services.impl.RouteServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class RouteControllerTest {
     RouteServiceImpl routeService;
 
     @Test
-    public void shouldReturnRoutesFromService() throws Exception {
+    public void shouldReturnRoutesFromService() throws RouteNotFoundException, Exception {
         when(routeService.getRoutesForBorders(anyString(),anyString())).thenReturn(Set.of("1","2"));
 
         this.mockMvc.perform(MockMvcRequestBuilders.get("/routing/{origin}/{destination}",

@@ -19,4 +19,5 @@ URL : https://raw.githubusercontent.com/mledoze/countries/master/countries.json
 ### Testing the applications.
 
 1. ./mvnw test will execute the integration and the unit tests.
+2. http://localhost:8080/swagger-ui/index.html using the swagger url
 
